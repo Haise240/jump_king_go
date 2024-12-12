@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Haise240/jump_king_go/game" // Пакет с логикой игры
+	"Haise240/jump_king_go/game"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -15,7 +15,7 @@ type Game struct {
 
 func NewGame() *Game {
 	return &Game{
-		Player: &game.Player{X: 100, Y: 500, VX: 0, VY: 0, Jumping: false},
+		Player: &game.Player{X: 150, Y: 480, VX: 0, VY: 0, Jumping: false}, // Позиция над платформой
 		World:  game.NewWorld(),
 		Camera: game.Camera{Y: 0},
 	}
@@ -24,8 +24,6 @@ func NewGame() *Game {
 func (g *Game) Update() error {
 	g.Player.Update(g.World.Platforms)
 	g.Camera.Update(g.Player.Y)
-
-	// Генерация и очистка платформ
 	g.World.GeneratePlatforms(g.Player.Y)
 	g.World.CleanupPlatforms(g.Camera.Y)
 	return nil
@@ -36,16 +34,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.Player.Draw(screen, g.Camera.Y)
 }
 
-// Layout — задает размеры окна игры
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return 800, 600 // Размеры окна: 800x600
+	return 800, 600
 }
 
-// Точка входа в программу
 func main() {
-	game := NewGame() // Создаем объект игры
-
-	// Запуск игрового цикла
+	game := NewGame()
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}

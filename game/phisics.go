@@ -6,10 +6,6 @@ func ApplyGravity(vy *float64) {
 	*vy += Gravity
 }
 
-type Platform struct {
-	X, Y, Width, Height float64
-}
-
 func CheckCollision(playerX, playerY, playerWidth, playerHeight float64, platforms []Platform) (onPlatform bool, platformY float64) {
 	for _, platform := range platforms {
 		if playerX+playerWidth > platform.X && playerX < platform.X+platform.Width &&
